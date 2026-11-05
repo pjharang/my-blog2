@@ -5,16 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>My Blog</title>
   <meta name="description" content="마크다운으로 쓰는 나의 블로그">
-  <meta name="theme-color" content="#f7f7fb">
+  <meta name="theme-color" content="#000000">
   <script>
-    // 첫 페인트 전에 테마를 적용해 깜빡임을 막는다
+    // 첫 페인트 전에 테마를 적용해 깜빡임을 막는다. 저장된 선택이 없으면 네온 블랙(다크)이 기본
     (function () {
       var t = null;
       try { t = localStorage.getItem('theme'); } catch (e) {}
-      if (t !== 'light' && t !== 'dark') {
-        t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
-      document.documentElement.dataset.theme = t;
+      document.documentElement.dataset.theme = t === 'light' ? 'light' : 'dark';
     })();
   </script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -24,16 +21,18 @@
 <body>
   <div class="progress" id="progress" aria-hidden="true"></div>
 
-  <header class="site-header">
-    <div class="container site-header__inner">
+  <div class="shell">
+    <header class="sidebar">
       <a class="brand" href="#/" aria-label="홈으로">
-        <span class="brand__mark">✦</span>
-        <span class="brand__name">My Blog</span>
+        <span class="brand__mark">&gt;_</span>
+        <span class="brand__name">my-blog</span>
       </a>
+
       <nav class="site-nav" aria-label="메뉴">
         <a class="site-nav__link" href="#/tag/중장년재취업">중장년재취업</a>
-        <a class="site-nav__link" href="#/write">✏️ 글쓰기</a>
+        <a class="site-nav__link" href="#/write">글쓰기</a>
       </nav>
+
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="다크 모드 전환">
         <svg class="icon icon--sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
           <circle cx="12" cy="12" r="4"/>
@@ -43,14 +42,12 @@
           <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
         </svg>
       </button>
-    </div>
-  </header>
 
-  <main id="app" class="container" tabindex="-1"></main>
+      <p class="sidebar__foot">© 2026 · Markdown 으로 만든 블로그</p>
+    </header>
 
-  <footer class="site-footer">
-    <div class="container">© 2026 My Blog · Markdown으로 만들었어요</div>
-  </footer>
+    <main id="app" tabindex="-1"></main>
+  </div>
 
   <script type="module" src="js/theme.js"></script>
   <script type="module" src="js/app.js"></script>

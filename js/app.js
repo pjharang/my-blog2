@@ -12,11 +12,13 @@ function formatDate(iso) {
   return `${y}년 ${Number(m)}월 ${Number(d)}일`;
 }
 
-// 글마다 고유한 그라데이션을 만들어 썸네일 대신 쓴다
-function gradientFor(slug) {
+const NEON_VARS = ['--neon-1', '--neon-2', '--neon-3', '--neon-4'];
+
+// 글마다 고정된 네온 색을 하나 골라 행의 강조색으로 쓴다
+function colorFor(slug) {
   let h = 0;
-  for (const ch of slug) h = (h * 31 + ch.charCodeAt(0)) % 360;
-  return `linear-gradient(135deg, hsl(${h} 85% 62%), hsl(${(h + 55) % 360} 85% 58%))`;
+  for (const ch of slug) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return `var(${NEON_VARS[h % NEON_VARS.length]})`;
 }
 
 function readingTime(text) {
@@ -27,16 +29,19 @@ function tagList(tags) {
   return tags.map((t) => `<span class="tag">${esc(t)}</span>`).join('');
 }
 
-function cardHtml(p) {
+function rowHtml(p, i) {
   return `
-    <a class="post-card" href="#/post/${p.slug}">
-      <div class="post-card__cover" style="background:${gradientFor(p.slug)}" aria-hidden="true">${esc(p.emoji || '📝')}</div>
-      <div class="post-card__body">
-        <div class="post-card__tags">${tagList(p.tags || [])}</div>
-        <h2 class="post-card__title">${esc(p.title)}</h2>
-        <p class="post-card__summary">${esc(p.summary || '')}</p>
-        <time class="post-card__date" datetime="${esc(p.date)}">${formatDate(p.date)}</time>
+    <a class="feed-row" style="--c:${colorFor(p.slug)}" href="#/post/${p.slug}">
+      <span class="feed-row__index" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+      <div class="feed-row__main">
+        <div class="feed-row__meta">
+          <time datetime="${esc(p.date)}">${esc(p.date.replace(/-/g, '.'))}</time>
+          ${tagList(p.tags || [])}
+        </div>
+        <h2 class="feed-row__title">${esc(p.emoji || '')} ${esc(p.title)}</h2>
+        <p class="feed-row__summary">${esc(p.summary || '')}</p>
       </div>
+      <span class="feed-row__arrow" aria-hidden="true">→</span>
     </a>`;
 }
 
@@ -48,10 +53,10 @@ function visiblePosts() {
 }
 
 function renderGrid() {
-  const grid = document.getElementById('grid');
+  const feed = document.getElementById('feed');
   const list = visiblePosts();
-  grid.innerHTML = list.length
-    ? list.map(cardHtml).join('')
+  feed.innerHTML = list.length
+    ? list.map(rowHtml).join('')
     : '<p class="empty">조건에 맞는 글이 없어요.</p>';
 }
 
@@ -66,15 +71,15 @@ function showList() {
   document.title = 'My Blog';
   app.innerHTML = `
     <section class="hero">
-      <p class="hero__eyebrow">Markdown · Blog</p>
-      <h1 class="hero__title">생각을 <span class="gradient-text">기록</span>하는 공간</h1>
+      <p class="hero__eyebrow">markdown · blog</p>
+      <h1 class="hero__title">생각을 <span class="accent-text">기록</span>하는 공간</h1>
       <p class="hero__lead">마크다운으로 쓴 글이 그대로 웹페이지가 됩니다.</p>
     </section>
     <section class="toolbar" aria-label="글 찾기">
       <input class="search" id="search" type="search" placeholder="글 검색" aria-label="글 검색" value="${esc(filter.query)}">
       <div class="chips" id="chips"></div>
     </section>
-    <section class="grid" id="grid" aria-live="polite"></section>`;
+    <section class="feed" id="feed" aria-live="polite"></section>`;
 
   renderChips();
   renderGrid();
