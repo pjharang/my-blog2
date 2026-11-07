@@ -74,7 +74,22 @@ function showList() {
       <input class="search" id="search" type="search" placeholder="글 검색" aria-label="글 검색" value="${esc(filter.query)}">
       <div class="chips" id="chips"></div>
     </section>
-    <section class="grid" id="grid" aria-live="polite"></section>`;
+    <section class="grid" id="grid" aria-live="polite"></section>
+    <section class="apps" aria-label="미니 웹앱">
+      <h2 class="apps__title">🎮 미니 웹앱</h2>
+      <div class="grid">
+        <a class="post-card app-card" href="apps/2048/index.html">
+          <div class="app-card__preview" aria-hidden="true">
+            <iframe src="apps/2048/index.html" title="2048 미리보기" loading="lazy" tabindex="-1"></iframe>
+          </div>
+          <div class="post-card__body">
+            <h3 class="post-card__title">2048</h3>
+            <p class="post-card__summary">방향키와 스와이프로 타일을 합쳐 2048을 만드는 퍼즐 게임. 점수판과 최고 점수 기록 포함.</p>
+            <span class="post-card__date">▶ 플레이하기</span>
+          </div>
+        </a>
+      </div>
+    </section>`;
 
   renderChips();
   renderGrid();

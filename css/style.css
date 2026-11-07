@@ -594,3 +594,13 @@ main.container { flex: 1; padding-bottom: 64px; outline: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* 미니 웹앱 카드 */
+.apps { margin-top: 48px; }
+.apps__title { font-size: 1.3rem; margin: 0 0 16px; }
+.app-card__preview { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: var(--surface, #eee); }
+.app-card__preview iframe {
+  position: absolute; top: 0; left: 0; width: 200%; height: 200%;
+  border: 0; pointer-events: none; transform: scale(0.5); transform-origin: top left;
+}
+.grid .app-card { animation: none; }
