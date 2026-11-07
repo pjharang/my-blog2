@@ -83,6 +83,16 @@ function showList() {
             <span class="post-card__date">▶ 플레이하기</span>
           </div>
         </a>
+        <a class="post-card app-card" href="apps/pixel-editor/index.html">
+          <div class="app-card__preview" aria-hidden="true">
+            <iframe src="apps/pixel-editor/index.html" title="도트 아트 에디터 미리보기" loading="lazy" tabindex="-1"></iframe>
+          </div>
+          <div class="post-card__body">
+            <h3 class="post-card__title">도트 아트 에디터</h3>
+            <p class="post-card__summary">16x16 격자에 16색 팔레트로 도트 그림을 그리고 PNG로 저장하는 픽셀 아트 에디터.</p>
+            <span class="post-card__date">▶ 그려보기</span>
+          </div>
+        </a>
       </div>
     </section>
     <h2 class="apps__title">📝 글</h2>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>도트 아트 에디터</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<main class="app">
+  <h1>도트 아트 에디터</h1>
+  <div class="layout">
+    <div class="canvas-wrap">
+      <canvas id="canvas" width="320" height="320" role="img" aria-label="16x16 도트 아트 캔버스. 포인터로 칸을 칠할 수 있습니다."></canvas>
+    </div>
+    <div class="panel">
+      <section class="group" aria-label="도구">
+        <div class="tools">
+          <button id="tool-pencil" class="btn tool" type="button" data-tool="pencil" aria-label="연필" aria-pressed="true">연필</button>
+          <button id="tool-eraser" class="btn tool" type="button" data-tool="eraser" aria-label="지우개" aria-pressed="false">지우개</button>
+          <button id="tool-fill" class="btn tool" type="button" data-tool="fill" aria-label="채우기" aria-pressed="false">채우기</button>
+        </div>
+        <div class="tools">
+          <button id="undo" class="btn" type="button" aria-label="되돌리기" disabled>되돌리기</button>
+          <button id="clear" class="btn" type="button" aria-label="전체 지우기">전체 지우기</button>
+          <button id="grid-toggle" class="btn" type="button" aria-label="격자선" aria-pressed="true">격자선</button>
+        </div>
+      </section>
+
+      <section class="group" aria-label="색">
+        <div class="current">
+          <span class="swatch" id="current-swatch" aria-hidden="true"></span>
+          <span class="current-label">현재 색 <b id="current-hex">#000000</b></span>
+          <label class="picker btn" for="color-input">
+            직접 고르기
+            <input id="color-input" type="color" value="#000000" aria-label="직접 색 고르기">
+          </label>
+        </div>
+        <div id="palette" class="palette" role="radiogroup" aria-label="색 팔레트"></div>
+      </section>
+
+      <section class="group" aria-label="저장">
+        <div class="save">
+          <label class="scale-label">배율
+            <select id="scale" class="btn" aria-label="저장 배율">
+              <option value="1">x1 (16px)</option>
+              <option value="10">x10 (160px)</option>
+              <option value="20" selected>x20 (320px)</option>
+            </select>
+          </label>
+          <button id="save" class="btn primary" type="button" aria-label="PNG로 저장">PNG 저장</button>
+        </div>
+        <p id="status" class="status" aria-live="polite"></p>
+      </section>
+    </div>
+  </div>
+</main>
+<script src="./script.js"></script>
+</body>
+</html>
