@@ -26,6 +26,13 @@
   var statusEl = document.getElementById('status');
   var toolBtns = Array.prototype.slice.call(document.querySelectorAll('.tool'));
 
+  // 격자선 색은 블로그 CSS 변수에서 읽는다 (테마가 바뀌면 다시 읽는다)
+  var gridLineColor = '#888888';
+  function readThemeColors() {
+    var v = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim();
+    if (v) gridLineColor = v;
+  }
+
   var grid = new Array(N * N).fill(null);
   var color = '#000000';
   var tool = 'pencil';
@@ -78,13 +85,15 @@
         if (v) {
           ctx.fillStyle = v;
         } else {
+          // 투명 칸 체크무늬는 "비어 있음"을 뜻하는 표시 색이라 테마와 무관하게 고정한다
           ctx.fillStyle = ((x + y) % 2 === 0) ? '#ffffff' : '#d9d9d9';
         }
         ctx.fillRect(x * CELL, y * CELL, CELL, CELL);
       }
     }
     if (showGrid) {
-      ctx.strokeStyle = 'rgba(0,0,0,0.25)';
+      ctx.strokeStyle = gridLineColor;
+      ctx.globalAlpha = 0.5;
       ctx.lineWidth = 1;
       ctx.beginPath();
       for (var i = 0; i <= N; i++) {
@@ -94,6 +103,7 @@
         ctx.moveTo(0, p); ctx.lineTo(N * CELL, p);
       }
       ctx.stroke();
+      ctx.globalAlpha = 1;
     }
   }
 
@@ -307,6 +317,9 @@
   });
 
   // ---------- 시작 ----------
+  readThemeColors();
+  new MutationObserver(function () { readThemeColors(); render(); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   restore();
   gridBtn.setAttribute('aria-pressed', String(showGrid));
   updateColorUI();

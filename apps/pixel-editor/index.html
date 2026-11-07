@@ -4,11 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>도트 아트 에디터</title>
+<script>
+  // 블로그와 같은 방식으로 테마를 정한다 (첫 페인트 전에 적용)
+  (function () {
+    function pick() {
+      var t = null;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      return t;
+    }
+    document.documentElement.dataset.theme = pick();
+    // 블로그(iframe 부모)에서 테마를 바꾸면 따라간다
+    window.addEventListener('storage', function (e) {
+      if (e.key === 'theme' || e.key === null) document.documentElement.dataset.theme = pick();
+    });
+  })();
+</script>
+<link rel="stylesheet" href="../../css/style.css">
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <main class="app">
   <h1>도트 아트 에디터</h1>
+  <details class="help" open>
+    <summary>사용법</summary>
+    <ul>
+      <li>칸을 클릭하거나 드래그해서 점을 찍습니다. 모바일에서는 손가락으로 드래그해 그립니다.</li>
+      <li>색은 오른쪽(모바일은 아래) 팔레트에서 고르고, "직접 고르기"로 원하는 색을 만들 수도 있습니다.</li>
+      <li>도구: 연필은 색을 칠하고, 지우개는 칸을 비우고, 채우기는 이어진 같은 색 영역을 한 번에 칠합니다.</li>
+      <li><kbd>Ctrl+Z</kbd>(맥은 <kbd>Cmd+Z</kbd>) 또는 "되돌리기" 버튼으로 직전 작업을 취소합니다.</li>
+      <li>완성하면 배율을 고르고 "PNG 저장"을 누릅니다.</li>
+    </ul>
+  </details>
   <div class="layout">
     <div class="canvas-wrap">
       <canvas id="canvas" width="320" height="320" role="img" aria-label="16x16 도트 아트 캔버스. 포인터로 칸을 칠할 수 있습니다."></canvas>

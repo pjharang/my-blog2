@@ -1,31 +1,17 @@
+/* 색은 블로그 css/style.css의 변수(--bg, --surface-2, --text, --accent 등)를 따른다.
+   앱 고유의 비색상 변수만 여기서 정의한다. */
 :root {
-  --bg: #faf8ef;
-  --fg: #776e65;
-  --accent: #6c5ce7;
-  --board-bg: #bbada0;
-  --cell-bg: rgba(238, 228, 218, 0.35);
-  --box-bg: #bbada0;
-  --box-fg: #fff;
-  --overlay-bg: rgba(238, 228, 218, 0.8);
   --size: min(92vw, 440px);
   --gap: calc(var(--size) * 0.025);
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1b1b22;
-    --fg: #e6e1da;
-    --board-bg: #3a3a47;
-    --cell-bg: rgba(255, 255, 255, 0.08);
-    --box-bg: #3a3a47;
-    --overlay-bg: rgba(27, 27, 34, 0.82);
-  }
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body {
+  display: block; /* 블로그 body의 flex 레이아웃 해제 */
   background: var(--bg);
-  color: var(--fg);
-  font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+  color: var(--text);
+  font-family: var(--font);
+  line-height: normal;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -49,8 +35,9 @@ h1 {
 }
 .scores { display: flex; gap: 8px; }
 .score-box {
-  background: var(--box-bg);
-  color: var(--box-fg);
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
   border-radius: 6px;
   padding: 6px 12px;
   min-width: 64px;
@@ -60,12 +47,14 @@ h1 {
   font-weight: bold;
   font-size: 18px;
 }
-.score-box .label { font-size: 11px; opacity: 0.85; letter-spacing: 1px; }
+.score-box .label { font-size: 11px; color: var(--text-muted); letter-spacing: 1px; }
+/* 블로그 .btn(둥근 알약, hover 이동)을 앱 스타일로 덮어쓴다 */
 .btn {
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
   border: 0;
   border-radius: 6px;
+  transform: none;
   min-height: 44px;
   min-width: 44px;
   padding: 0 16px;
@@ -73,16 +62,16 @@ h1 {
   font-weight: bold;
   cursor: pointer;
 }
-.btn:hover { filter: brightness(1.1); }
-.btn:focus-visible { outline: 3px solid var(--fg); outline-offset: 2px; }
-.hint { font-size: 13px; margin: 12px 0; }
+.btn:hover { filter: brightness(1.1); transform: none; border-color: transparent; }
+.btn:focus-visible { outline: 3px solid var(--text); outline-offset: 2px; }
+.hint { font-size: 13px; margin: 12px 0; color: var(--text-muted); }
 
 .board-wrap { position: relative; width: var(--size); height: var(--size); }
 .board {
   position: relative;
   width: 100%;
   height: 100%;
-  background: var(--board-bg);
+  background: var(--border);
   border-radius: 8px;
   padding: var(--gap);
   box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25), 0 4px 0 rgba(0, 0, 0, 0.18);
@@ -100,7 +89,8 @@ h1 {
   grid-template-rows: repeat(4, 1fr);
   gap: var(--gap);
 }
-.grid-bg i { background: var(--cell-bg); border-radius: 5px; box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.28), inset 0 -1px 0 rgba(255, 255, 255, 0.12); }
+.grid-bg i { background: color-mix(in srgb, var(--bg) 55%, transparent); border-radius: 5px; box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.28), inset 0 -1px 0 rgba(255, 255, 255, 0.12); }
+/* 타일 색(숫자별)은 게임 내용 자체인 데이터 색이라 블로그 변수 대신 고정값을 유지한다 */
 .tile {
   position: absolute;
   width: calc((100% - 3 * var(--gap)) / 4);
@@ -142,7 +132,7 @@ h1 {
 .overlay {
   position: absolute;
   inset: 0;
-  background: var(--overlay-bg);
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
   border-radius: 8px;
   display: flex;
   flex-direction: column;

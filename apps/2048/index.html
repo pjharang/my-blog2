@@ -4,6 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>2048</title>
+<script>
+  // 블로그와 같은 방식으로 테마를 정한다 (첫 페인트 전에 적용)
+  (function () {
+    function pick() {
+      var t = null;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      return t;
+    }
+    document.documentElement.dataset.theme = pick();
+    // 블로그(iframe 부모)에서 테마를 바꾸면 따라간다
+    window.addEventListener('storage', function (e) {
+      if (e.key === 'theme' || e.key === null) document.documentElement.dataset.theme = pick();
+    });
+  })();
+</script>
+<link rel="stylesheet" href="../../css/style.css">
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
