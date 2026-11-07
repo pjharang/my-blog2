@@ -70,12 +70,7 @@ function showList() {
       <h1 class="hero__title">생각을 <span class="gradient-text">기록</span>하는 공간</h1>
       <p class="hero__lead">마크다운으로 쓴 글이 그대로 웹페이지가 됩니다.</p>
     </section>
-    <section class="toolbar" aria-label="글 찾기">
-      <input class="search" id="search" type="search" placeholder="글 검색" aria-label="글 검색" value="${esc(filter.query)}">
-      <div class="chips" id="chips"></div>
-    </section>
-    <section class="grid" id="grid" aria-live="polite"></section>
-    <section class="apps" aria-label="미니 웹앱">
+    <section class="apps" id="apps" aria-label="미니 웹앱">
       <h2 class="apps__title">🎮 미니 웹앱</h2>
       <div class="grid">
         <a class="post-card app-card" href="apps/2048/index.html">
@@ -89,7 +84,13 @@ function showList() {
           </div>
         </a>
       </div>
-    </section>`;
+    </section>
+    <h2 class="apps__title">📝 글</h2>
+    <section class="toolbar" aria-label="글 찾기">
+      <input class="search" id="search" type="search" placeholder="글 검색" aria-label="글 검색" value="${esc(filter.query)}">
+      <div class="chips" id="chips"></div>
+    </section>
+    <section class="grid" id="grid" aria-live="polite"></section>`;
 
   renderChips();
   renderGrid();

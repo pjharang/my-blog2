@@ -596,7 +596,7 @@ main.container { flex: 1; padding-bottom: 64px; outline: none; }
 }
 
 /* 미니 웹앱 카드 */
-.apps { margin-top: 48px; }
+.apps { margin: 0 0 40px; }
 .apps__title { font-size: 1.3rem; margin: 0 0 16px; }
 .app-card__preview { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: var(--surface, #eee); }
 .app-card__preview iframe {
